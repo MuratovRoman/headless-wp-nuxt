@@ -101,6 +101,10 @@ export default {
   grid-column-gap: 6vw;
   margin: 5em auto;
   max-width: 80vw;
+  @media screen and (max-width: 767px) {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }
 main {
   grid-area: 1 / 1 / 2 / 2;
