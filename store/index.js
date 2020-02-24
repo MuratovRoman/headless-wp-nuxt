@@ -1,5 +1,5 @@
-// const siteURL = "https://css-tricks.com"
-const siteURL = "https://jv.everest.agency/"
+const siteURL = "https://css-tricks.com"
+// const siteURL = "https://jv.everest.agency/"
 
 export const state = () => ({
   posts: [],

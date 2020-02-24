@@ -21,10 +21,10 @@
           @click="updateTag(tag)"
            v-for="tag in tags"
           :key="tag.id"
-          :class="[tag.id === selectedTag ? activeClass : '']"
+          :class="[selectedTag.includes(tag.id) ? activeClass : '']"
           >
             <a>{{ tag.name }}</a>
-            <span v-if="tag.id === selectedTag">✕</span>
+            <span v-if="selectedTag.includes(tag.id)">✕</span>
         </li>
       </ul>
     </div>
@@ -49,7 +49,6 @@ export default {
   },
   computed: {
     posts() {
-      console.log(this.$store.state)
       return this.$store.state.posts;
     },
     tags() {
@@ -57,7 +56,16 @@ export default {
     },
     sortedPosts() {
       if (!this.selectedTag.length) return this.posts;
-      return this.posts.filter(el => el.tags.includes(this.selectedTag));
+      // return this.posts.filter(el => el.tags.includes(this.selectedTag));
+      // console.log(this.posts.filter(el => {
+      //   el.tags.forEach(tag => {
+      //     console.log(this.selectedTag.includes(tag));
+      //     if (this.selectedTag.includes(tag)) {
+      //       return true;
+      //     } else return false;
+      //   });
+      // }))
+      return this.posts.filter(el => this.filterTags(el.tags, this.selectedTag));
     }
   },
   created() {
@@ -65,13 +73,21 @@ export default {
   },
   methods: {
     updateTag(tag) {
-      if (!this.selectedTag.length) {
+      if (!this.selectedTag.includes(tag.id)) {
         this.selectedTag.push(tag.id);
       } else {
-        // this.selectedTag = null;
-        let index = this.selectedTag.indexOf(tag.id)
+        let index = this.selectedTag.indexOf(tag.id);
         this.selectedTag.splice(index, 1);
       }
+    },
+    filterTags(tags, filters) {
+      let matchTags = false
+      tags.forEach(tag => {
+        if (filters.includes(tag)) {
+          matchTags = true
+        }
+      })
+      return matchTags
     }
   }
 }
